@@ -5,18 +5,38 @@
   <title></title>
 </head>
 <style>
-  canvas {
-    width: 100%;
-    height: 100%;
-  }
   input {
     position: fixed;
-    bottom: 10%
+    bottom: 15%;
+    color: #808080;
+    width: 40%;
+    height: 12%;
+    font-size: 150%;
+    text-align: center;
+    border: 2px solid #a6a6a6;
+    border-radius: 10px;    
+  }
+  #quesDisplay {
+    font-family: "Century Gothic";
+    font-weight: bold;
+    font-size: 180%;
+    color: #808080;
+    position: fixed;
+    top: 20%;
+  }
+  #quesResult {
+    font-family: "Century Gothic";
+    font-weight: bold;
+    font-size: 180%;
+    color: black;
+    position: fixed;
+    top: 50%;
   }
 </style>
 <body>
   <script src="game.js"></script>
-  <canvas id="myCanvas"></canvas>
 </body>
+<div id="quesDisplay"></div>
+<div id="quesResult"></div>
 <input id="inp" type=number value="" autocomplete="off">
 </html>
