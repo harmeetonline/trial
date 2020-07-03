@@ -1,17 +1,15 @@
-  
-var canvas = document.getElementById("myCanvas")
-var ctx = canvas.getContext("2d")
-ctx.beginPath();
-ctx.rect(0,0,canvas.width,canvas.height);
-ctx.fillStyle="pink";
-ctx.fill();
-ctx.fillStyle="blue";
-ctx.textAlign="center";
 
-var start = ctx.fillText("Click To Start", canvas.width/2, canvas.height/2)
+document.getElementById(quesDisplay)
+quesDisplay.innerHTML = "Maths"
 
-canvas.addEventListener('click', function() {
-  newQues()
+gameState = "toStart"
+
+quesDisplay.addEventListener('click', function() {
+  if (gameState==="toStart"){
+    gameState="started"
+    console.log("click")
+    newQues()
+  }  
 })
 
 var signArr= ['+','-','*',/*'/'*/]
@@ -22,9 +20,6 @@ var WrongCount = 0
 
 function newQues() {
   
-  ctx.rect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle="pink";
-  ctx.fill();
 
   inp.disabled=false;
 
@@ -34,27 +29,28 @@ function newQues() {
 
   var question = num1+" "+sign+" "+num2
   var solution = eval(question)
-  
-  ctx.fillStyle="black"
-  ctx.textAlign="center"
-  ctx.fillText(question, canvas.width/2, canvas.height/4)
 
+  quesDisplay.innerHTML = question
   console.log(question)
   console.log("Solution is "+solution)
 
   function checkAns(ans) {
 
     if (solution == ans) {
-      ctx.fillStyle="green"
-      ctx.fillText("Correct!",canvas.width/2, canvas.height/2)
+      // ctx.fillStyle="green"
+      // ctx.fillText("Correct!",canvas.width/2, canvas.height/2)
+      quesResult.innerHTML = "Correct"
     }
     else {
-      ctx.fillStyle="red"
-      ctx.fillText("Wrong!",canvas.width/2, canvas.height/2)
+      quesResult.innerHTML = "Wrong"
+      // ctx.fillStyle="red"
+      // ctx.fillText("Wrong!",canvas.width/2, canvas.height/2)
     }
 
     setTimeout( function () {
       newQues()
+      inp.focus()
+      inp.value=""
     }, 300)
   }
 
