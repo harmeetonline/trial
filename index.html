@@ -4,19 +4,23 @@
   <meta charset="">
   <title></title>
 </head>
+
 <style>
   input {
     position: fixed;
     bottom: 15%;
+    left: 30%;
     color: #808080;
     width: 40%;
     height: 12%;
     font-size: 150%;
     text-align: center;
-    border: 5px solid #a6a6a6;
-    border-radius: 20%;    
+    border: 3px solid #a6a6a6;
+    border-radius: 10px;    
   }
   #quesDisplay {
+    text-align: center;
+    width: 100%;
     font-family: "Century Gothic";
     font-weight: bold;
     font-size: 180%;
@@ -26,17 +30,26 @@
   }
   #quesResult {
     font-family: "Century Gothic";
+    text-align: center;
+    width: 100%;
     font-weight: bold;
     font-size: 180%;
-    color: black;
+    color: #808080;
     position: fixed;
     top: 45%;
   }
+  #scoreSpan {
+    font-size: 360%;
+  }
+  #restart {
+    font-size: 50%
+  }
 </style>
-<body style="background-color:#f0f0f0">
-  <script src="game.js"></script>
+<body style="background-color:#f0f0f0"> 
 </body>
 <div id="quesDisplay"></div>
 <div id="quesResult"></div>
+<div id = "timerDisp"></div>
 <input id="inp" type=number value="" autocomplete="off">
+<script type="text/javascript" src="game.js"></script>
 </html>
