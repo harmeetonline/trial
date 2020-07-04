@@ -4,76 +4,115 @@ quesDisplay.innerHTML = "Maths"
 
 gameState = "toStart"
 
-quesDisplay.addEventListener('click', function() {
+document.addEventListener('click', function() {
   if (gameState==="toStart"){
+    startTimer();
     gameState="started"
     console.log("click")
+    inp.focus()
     newQues()
   }  
 })
 
-var signArr= ['+','-','*',/*'/'*/]
+// document.addEventListener('keyup', function(event) {
+//   if (gameState==="toStart" && event.keyCode == 13){
+//     startTimer();
+//     gameState="started"
+//     console.log("click")
+//     inp.focus()
+//     newQues()
+//   }  
+// })
 
-var QuesCount = 0
-var CorrectCount = 0
-var WrongCount = 0
 
-var question
-var solution
+
+// FINAL COLOR TAKEN BY LAST QUESTION RESULT COLOR
+// CENTER SETTINGS (IF ANY)
+// ONCE RESTARTED BY ENTER AT THE END
+
+var signArr= ['+','-','*','/'];
+
+var score = 0
+
+let question
+let solution
 
 function newQues() {
   
-
+  quesResult.innerHTML = ""
   inp.disabled=false;
+  inp.focus()
+  inp.value=""
+  var sign = signArr[Math.floor(Math.random()*4)]
 
   var num1 = Math.floor(Math.random()*10)+4
   var num2 = Math.floor(Math.random()*10)+4
-  var sign = signArr[Math.floor(Math.random()*4)]
+  
+  if (sign=='/') {
+    num3 = num1*num2
+    num1 = num3
+  }  
 
-  question = num1+" "+sign+" "+num2
-  solution = eval(question)
+  console.log("sign index is "+ Math.floor(Math.random()*4))
 
-  quesDisplay.innerHTML = question
-  console.log(question)
-  console.log("Solution is "+solution)
+  question = num1+" "+sign+" "+num2;
+  console.log("quest is "+question);
+  solution = eval(question);
 
+  quesDisplay.innerHTML = question;
 }
 
-  function checkAns(ans) {
+function checkAns(ans) {
     
-    if (solution == ans) {
-      // ctx.fillStyle="green"
-      // ctx.fillText("Correct!",canvas.width/2, canvas.height/2)
-      quesResult.style.color="#92C68A";
-      quesResult.innerHTML = "Correct!";
-      
-    }
-    else {
+  if (solution == ans) {
+    quesResult.style.color="#92C68A";
+    quesResult.innerHTML = "Correct!";
+    score += 10
+  }
+  else {
       quesResult.innerHTML = "Wrong!"
       quesResult.style.color = "#CB5555";
-      // ctx.fillStyle="red"
-      // ctx.fillText("Wrong!",canvas.width/2, canvas.height/2)
-    }
-
-    setTimeout( function () {
-      console.log('ok')
-      newQues()
-      inp.focus()
-      inp.value=""
-    }, 300)
   }
 
-  inp.addEventListener('keyup', function(event){
+  setTimeout( function () {
+    newQues()
+    inp.focus()
+    inp.value=""
+  }, 300)
+}
+
+inp.addEventListener('keyup', function(event){
     
-    if(event.keyCode==13) {
-      if (inp.value!=="") {
-        console.log("Enter on "+inp.value);
-        
-        // document.getElementById("inp").disabled=true;
-        inp.disabled=true;
-        
-        checkAns(inp.value)
+  if(event.keyCode==13) {
+    if (inp.value!=="") {        
+      inp.disabled=true;        
+      checkAns(inp.value)
+    }
+    else if (inp.value==""){console.log("Enter on Nil")}
+  }
+})
+
+
+
+function startTimer() {
+  var timer = 60
+  var interval = setInterval( function () {
+    console.log('ok')
+    if (gameState==="started") {
+      timer-=1;
+      timerDisp.innerHTML=timer;
+
+      if (timer<=55){
+        timerDisp.innerHTML = ""
+        question = "no question";
+        solution = "nothing";
+        clearInterval(interval)
+        quesDisplay.innerHTML = "Time Over! <span id=restart> <br/> (Click to Start Again) </span>"
+        quesResult.innerHTML = "SCORE"  + "<br />" + "<span id=scoreSpan>"+score+"</span>"
+        quesResult.style.top = "40%"
+        inp.disabled = true
+        gameState="toStart"
       }
-      else if (inp.value==""){console.log("Enter on Nil")}
-   }
-  })
+    }    
+  }, 1000)
+}
