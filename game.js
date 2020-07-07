@@ -1,34 +1,19 @@
 
 document.getElementById(quesDisplay)
-quesDisplay.innerHTML = "Maths"
+quesDisplay.style.color = "#2d95c2"
+quesDisplay.innerHTML = "Maths<span id=restart> <br/> (Click to Start Again) </span>"
 
 gameState = "toStart"
+var timer = 60
 
 document.addEventListener('click', function() {
   if (gameState==="toStart"){
     startTimer();
     gameState="started"
-    console.log("click")
     inp.focus()
     newQues()
   }  
 })
-
-// document.addEventListener('keyup', function(event) {
-//   if (gameState==="toStart" && event.keyCode == 13){
-//     startTimer();
-//     gameState="started"
-//     console.log("click")
-//     inp.focus()
-//     newQues()
-//   }  
-// })
-
-
-
-// FINAL COLOR TAKEN BY LAST QUESTION RESULT COLOR
-// CENTER SETTINGS (IF ANY)
-// ONCE RESTARTED BY ENTER AT THE END
 
 var signArr= ['+','-','*','/'];
 
@@ -41,6 +26,7 @@ function newQues() {
   
   quesResult.innerHTML = ""
   inp.disabled=false;
+  enterAllowed = true;
   inp.focus()
   inp.value=""
   var sign = signArr[Math.floor(Math.random()*4)]
@@ -53,12 +39,10 @@ function newQues() {
     num1 = num3
   }  
 
-  console.log("sign index is "+ Math.floor(Math.random()*4))
-
   question = num1+" "+sign+" "+num2;
-  console.log("quest is "+question);
   solution = eval(question);
 
+  quesDisplay.style.color = "#808080"
   quesDisplay.innerHTML = question;
 }
 
@@ -75,39 +59,40 @@ function checkAns(ans) {
   }
 
   setTimeout( function () {
-    newQues()
-    inp.focus()
-    inp.value=""
+    if (gameState == "started" && timer>0) {
+      newQues()
+      inp.focus()
+      inp.value=""
+    }
   }, 300)
 }
-
-inp.addEventListener('keyup', function(event){
-    
-  if(event.keyCode==13) {
+var enterAllowed = true
+inp.addEventListener('keyup', function (event) {    
+  if (event.keyCode==13 && enterAllowed == true && gameState === "started") {
     if (inp.value!=="") {        
       inp.disabled=true;        
       checkAns(inp.value)
     }
-    else if (inp.value==""){console.log("Enter on Nil")}
   }
 })
 
 
-
 function startTimer() {
-  var timer = 60
+  timer = 60
   var interval = setInterval( function () {
-    console.log('ok')
     if (gameState==="started") {
       timer-=1;
-      timerDisp.innerHTML=timer;
+      // timerDisp.innerHTML=timer;
 
-      if (timer<=55){
+      if (timer<=0){
+        enterAllowed = false
         timerDisp.innerHTML = ""
         question = "no question";
         solution = "nothing";
         clearInterval(interval)
+        quesDisplay.style.color = "#2d95c2"
         quesDisplay.innerHTML = "Time Over! <span id=restart> <br/> (Click to Start Again) </span>"
+        quesResult.style.color = "#2d95c2"
         quesResult.innerHTML = "SCORE"  + "<br />" + "<span id=scoreSpan>"+score+"</span>"
         quesResult.style.top = "40%"
         inp.disabled = true
