@@ -23,7 +23,7 @@ FBInstant.initializeAsync()
     }, 100)
   }
 );
-startGame()
+
 function startGame () {
   document.getElementById(quesDisplay)
   quesDisplay.style.color = "#2d95c2"
